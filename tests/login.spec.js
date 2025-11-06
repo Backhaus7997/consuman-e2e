@@ -15,4 +15,10 @@ test('login', async ({ page }) => {
 
   // Click the login button
   await page.getByRole('button', { name: 'Login' }).click();
+
+  await page.waitForTimeout(8000);
+
+  await page.getByText('Activos').click();
+
+  await page.waitForTimeout(2000);
 });
