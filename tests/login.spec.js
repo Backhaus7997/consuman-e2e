@@ -3,10 +3,10 @@ import { test, expect } from '@playwright/test';
 test.setTimeout(120000);
 
 async function handleLogin(page) {
-  await page.getByLabel('Email').fill('ovillalon@consuman.com');
+  await page.getByLabel('Email').fill('mmorillas@consuman.com');
   await page.waitForTimeout(2000);
 
-  await page.getByLabel('Password').fill('Villalon1920#');
+  await page.getByLabel('Password').fill('123');
   await page.waitForTimeout(2000);
 
   await page.getByRole('button', { name: 'Login' }).click();
@@ -14,7 +14,7 @@ async function handleLogin(page) {
 }
 
 test('login', async ({ page }) => {
-  await page.goto('https://ambitious-flower-079bde70f.5.azurestaticapps.net/');
+  await page.goto('localhost:3030');
   
   await handleLogin(page);
 
@@ -28,13 +28,13 @@ test('login', async ({ page }) => {
 
   await page.waitForTimeout(2000);
 
-  await page.getByRole('combobox', { name: 'Tipo' }).fill('Aire Acondicionado');
+  await page.getByRole('combobox', { name: 'Tipo' }).fill('Playwright');
 
-  await page.getByRole('option', { name: 'Aire Acondicionado' }).click();
+  await page.getByRole('option', { name: 'Playwright' }).click();
 
   await page.waitForTimeout(2000);
 
-  await page.getByRole('textbox', { name: 'Nombre' }).fill('Activo Prueba');
+  await page.getByRole('textbox', { name: 'Nombre' }).fill('Playwright prueba');
 
   await page.waitForTimeout(1000);
 
@@ -46,19 +46,26 @@ test('login', async ({ page }) => {
 
   await page.waitForTimeout(2000);
 
-  const dateField = page.locator('input[placeholder="DD/MM/YY hh:mm"]');
-  await dateField.click({ position: { x: 10, y: 10 } });
-  await page.keyboard.type('0611250025');
+  
+  const ubicacion = page.locator('input[role="combobox"][value="Locations"]');
+  await ubicacion.click();
+  await page.waitForSelector('input[role="textbox"][aria-label="Buscar"]', { state: 'visible', timeout: 5000 });
+
+  const buscador = page.locator('input[role="textbox"][aria-label="Buscar"]');
+  await buscador.fill('Cordoba');
+  await page.waitForTimeout(2000);
+ 
+  await buscador.press('Enter');
+
+ 
+  try {
+    await page.getByText('Cordoba', { exact: true }).click({ timeout: 2000 });
+  } catch (e) {
+  }
 
   await page.waitForTimeout(2000);
 
-  await page.locator('input[value="ARGENTINA"]').click();
-  await page.waitForTimeout(1000);
-
-  await page.getByRole('textbox', { name: 'Buscar' }).fill('Almacen Central Bs As');
-  await page.waitForTimeout(1000);
-
-  await page.getByText('Almacen Central Bs As').click();
+  await page.getByText('Crear activo').click();
 
   await page.waitForTimeout(2000);
 });
