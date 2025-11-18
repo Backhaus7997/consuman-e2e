@@ -10,7 +10,7 @@ async function handleLogin(page) {
   await page.getByRole('button', { name: 'Login' }).click();
 }
 
-test('login', async ({ page }) => {
+test('crear_categoria', async ({ page }) => {
   await page.goto('http://localhost:3030');
   
   await handleLogin(page);
@@ -117,4 +117,5 @@ test('login', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Crear categoría' }).click();
   await page.waitForTimeout(2000);
-}); 
+});
+
